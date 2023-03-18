@@ -1,5 +1,5 @@
-import { makeSchema, objectType, nonNull, stringArg, intArg } from "nexus";
-import { FruitService } from "@/fruitStorage.domain/application/services/fruitStorage.service";
+import { makeSchema, objectType } from "nexus";
+import { FruitService } from "@/fruitStorage.domain/services/fruitService";
 import { FruitRepository } from "@/fruitStorage.domain/core/repositories/fruitRepository";
 import { FruitFactory } from "@/fruitStorage.domain/core/factories/fruitFactory";
 import { FruitName } from "@/fruitStorage.domain/core/valueObjects/fruitName";
