@@ -5,6 +5,8 @@ import { FruitDescription } from "../valueObjects/fruitDescription";
 import { FruitLimit } from "../valueObjects/fruitLimit";
 import { IFruitRepository } from "./IFruitRepository";
 import { FruitModel } from "../../infra/models/fruitModel";
+import { FruitFactory } from "../factories/fruitFactory";
+import { FruitMapper } from "@/fruitStorage.domain/infra/mappers/fruitMapper";
 
 /**
  * @description  Its main responsibility is to provide an abstraction for
@@ -12,7 +14,11 @@ import { FruitModel } from "../../infra/models/fruitModel";
  * retrieval, and deletion.
  */
 
+const fruitFactory = new FruitFactory();
+
 export class FruitRepository implements IFruitRepository {
+  fruitFactory: any;
+  fruitRepository: any;
   // 0. [Query] Find a fruit by its name.
   public async findFruit(name: FruitName): Promise<Fruit> {
     const fruit = FruitModel.findOne({ name: name.value });
@@ -67,8 +73,14 @@ export class FruitRepository implements IFruitRepository {
     description: FruitDescription,
     limit: FruitLimit
   ): Promise<void> {
-    const existingFruit = await FruitModel.findOne({ name: name.value });
+    const existingFruit = await this.findFruit(name);
     if (!existingFruit) {
+      // const newFruit = await fruitFactory.createFruit({
+      //   name,
+      //   description,
+      //   limit,
+      // });
+      // await FruitMapper.toPersistence(newFruit);
       const newFruit = new FruitModel({
         name: name.value,
         description: description.value,
@@ -86,12 +98,14 @@ export class FruitRepository implements IFruitRepository {
     description: FruitDescription,
     limit: FruitLimit
   ): Promise<void> {
-    const existingFruit = await FruitModel.findOne({ name: name.value });
+    const existingFruit = await this.findFruit(name);
     if (existingFruit) {
       await FruitModel.updateOne(
         { name: name.value },
         { description: description.value, limit: limit.value }
       );
+    } else if (FruitDescription.length > 30) {
+      throw new Error("Fruit description cannot be longer than 30 characters.");
     } else {
       throw new Error("Fruit not found.");
     }
@@ -118,8 +132,34 @@ export class FruitRepository implements IFruitRepository {
   }
 
   // 6. [Query] Get all fruits in the storage.
-  public async getAllFruits(): Promise<Fruit[]> {
+  public async findAllFruits(): Promise<Fruit[]> {
     const fruits = await FruitModel.find();
     return fruits;
+  }
+
+  // 7. [Mutation] Delete all fruits from the storage; if forceDelete is true, delete them regardless of any existing constraints.
+  public async deleteAllFruits(forceDelete: boolean): Promise<void> {
+    if (forceDelete) {
+      await FruitModel.deleteMany({});
+    } else {
+      const fruits = await FruitModel.find();
+      if (fruits.length > 0) {
+        let allFruitsHaveZeroLimit = true;
+        fruits.forEach((fruit) => {
+          if (fruit.limit !== 0) {
+            allFruitsHaveZeroLimit = false;
+          }
+        });
+        if (allFruitsHaveZeroLimit) {
+          await FruitModel.deleteMany({});
+        } else {
+          throw new Error(
+            "Some fruits have non-zero limit. Cannot delete without forceDelete set to true."
+          );
+        }
+      } else {
+        throw new Error("No fruits to delete.");
+      }
+    }
   }
 }
