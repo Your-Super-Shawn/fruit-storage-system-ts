@@ -16,7 +16,11 @@ export class FruitRepository implements IFruitRepository {
   // 0. [Query] Find a fruit by its name.
   public async findFruit(name: FruitName): Promise<Fruit> {
     const fruit = FruitModel.findOne({ name: name.value });
-    return fruit;
+    if (fruit) {
+      return fruit;
+    } else {
+      throw new Error("Fruit not found.");
+    }
   }
 
   // 1. [Mutation] Store a specified amount of fruit to the storage.
@@ -24,7 +28,16 @@ export class FruitRepository implements IFruitRepository {
     name: FruitName,
     amount: FruitAmount
   ): Promise<void> {
-    throw new Error("Method not implemented yet.");
+    const fruit = await FruitModel.findOne({ name: name.value });
+    if (fruit) {
+      const newLimitValue = fruit.limit + amount.value;
+      await FruitModel.updateOne(
+        { name: name.value },
+        { limit: newLimitValue }
+      );
+    } else {
+      throw new Error("Fruit not found.");
+    }
   }
 
   // 2. [Mutation] Remove a specified amount of fruit from the storage.
@@ -32,7 +45,20 @@ export class FruitRepository implements IFruitRepository {
     name: FruitName,
     amount: FruitAmount
   ): Promise<void> {
-    throw new Error("Method not implemented yet.");
+    const fruit = await FruitModel.findOne({ name: name.value });
+    if (fruit) {
+      if (fruit.limit >= amount.value) {
+        const newLimitValue = fruit.limit - amount.value;
+        await FruitModel.updateOne(
+          { name: name.value },
+          { limit: newLimitValue }
+        );
+      } else {
+        throw new Error("Insufficient fruit limit.");
+      }
+    } else {
+      throw new Error("Fruit not found.");
+    }
   }
 
   // 3. [Mutation] Create a new fruit in the storage.
@@ -41,7 +67,17 @@ export class FruitRepository implements IFruitRepository {
     description: FruitDescription,
     limit: FruitLimit
   ): Promise<void> {
-    throw new Error("Method not implemented yet.");
+    const existingFruit = await FruitModel.findOne({ name: name.value });
+    if (!existingFruit) {
+      const newFruit = new FruitModel({
+        name: name.value,
+        description: description.value,
+        limit: limit.value,
+      });
+      await newFruit.save();
+    } else {
+      throw new Error("Fruit with the same name already exists.");
+    }
   }
 
   // 4. [Mutation] Update an existing fruit's properties.
@@ -50,7 +86,15 @@ export class FruitRepository implements IFruitRepository {
     description: FruitDescription,
     limit: FruitLimit
   ): Promise<void> {
-    throw new Error("Method not implemented yet.");
+    const existingFruit = await FruitModel.findOne({ name: name.value });
+    if (existingFruit) {
+      await FruitModel.updateOne(
+        { name: name.value },
+        { description: description.value, limit: limit.value }
+      );
+    } else {
+      throw new Error("Fruit not found.");
+    }
   }
 
   // 5. [Mutation] Delete a fruit from the storage;
@@ -59,7 +103,18 @@ export class FruitRepository implements IFruitRepository {
     name: FruitName,
     forceDelete: boolean
   ): Promise<void> {
-    throw new Error("Method not implemented yet.");
+    if (forceDelete) {
+      await FruitModel.deleteOne({ name: name.value });
+    } else {
+      const fruit = await FruitModel.findOne({ name: name.value });
+      if (fruit && fruit.limit === 0) {
+        await FruitModel.deleteOne({ name: name.value });
+      } else {
+        throw new Error(
+          "Fruit has a non-zero limit. Cannot delete without forceDelete set to true."
+        );
+      }
+    }
   }
 
   // 6. [Query] Get all fruits in the storage.
