@@ -9,9 +9,7 @@ export class FruitDescription extends ValueObject<FruitDescriptionProps> {
     if (props.value.length === 0) {
       throw new Error("Fruit description cannot be empty.");
     } else if (props.value.length > 30) {
-      throw new Error(
-        "Fruit description cannot be longer than 100 characters."
-      );
+      throw new Error("Fruit description cannot be longer than 30 characters.");
     }
     super(props);
   }

@@ -8,8 +8,8 @@ export class FruitAmount extends ValueObject<FruitAmountProps> {
   constructor(props: FruitAmountProps) {
     if (props.value < 0) {
       throw new Error("Fruit amount cannot be negative.");
-    } else if (props.value > 999) {
-      throw new Error("Fruit amount cannot be greater than 999.");
+    } else if (props.value > 10) {
+      throw new Error("Fruit amount cannot be greater than 10.");
     }
     super(props);
   }
