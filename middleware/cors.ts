@@ -12,7 +12,7 @@ const cors = Cors({
 
 export default function corsMiddleware(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse 
 ) {
   return new Promise<void>((resolve, reject) => {
     cors(req, res, (result) => {
