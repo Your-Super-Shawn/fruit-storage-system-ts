@@ -1,38 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fruit Storage System
+
+A Fruit Storage System built using Next.js, TypeScript, GraphQL, Nexus, and MongoDB.
+
+## Overview
+
+This project is a Fruit Storage System that allows users to:
+
+- Create, read, update, and delete fruits
+- Store and remove fruits from the storage
+- Keep track of the fruit's name, description, and storage limit
+
+## Technologies
+
+| Technology      | Purpose                                                     |
+|-----------------|-------------------------------------------------------------|
+| Next.js         | Creating the web application with server-rendered components|
+| TypeScript      | Static types to improve code quality and maintainability   |
+| GraphQL         | Query language used to define the API for the application   |
+| Nexus           | Library to create a GraphQL schema using a code-first approach|
+| MongoDB         | NoSQL database used for storing data                        |
+| Mongoose        | Library to interact with MongoDB and define schemas         |
+
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+    ```sh
+    git clone https://github.com/your-username/fruit-storage-system-ts.git
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    cd fruit-storage-system-ts
+    ```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+2. Install dependencies:
+    ```sh
+    npm install
+    ```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+3. Start the development server:
+    ```sh
+    npm run dev
+    ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Open your browser and visit [http://localhost:3000](http://localhost:3000)
 
-## Learn More
+5. To access the GraphQL API, visit [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql)
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `pages`: Contains the Next.js pages for the application
+- `components`: Contains React components used in the application
+- `graphql`: Contains GraphQL schema and resolvers
+- `middleware`: Contains middleware used in the application, such as CORS handling
+- `models`: Contains Mongoose models for MongoDB
+- `utils`: Contains utility functions, such as MongoDB connection handling
+- `fruitStorage.domain`: Contains domain-related code, such as entities, value objects, repositories, and services
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.

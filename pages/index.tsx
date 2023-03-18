@@ -1,11 +1,28 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Fruit } from "@/fruitStorage.domain/core/entities/fruit";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [fruits, setFruits] = useState<Fruit[]>([]);
+
+  useEffect(() => {
+    async function fetchFruits() {
+      try {
+        const response = await axios.get("/api/fruits");
+        setFruits(response.data);
+      } catch (error) {
+        console.error("Error fetching fruits:", error);
+      }
+    }
+
+    fetchFruits();
+  }, []);
+
   return (
     <>
       <Head>
@@ -17,107 +34,61 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
+            Made by Shawn -&nbsp;
+            <code className={styles.code}>Next.js + TypeScript</code>
           </p>
           <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+            <h1>Fruit Storage System</h1>
           </div>
         </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
+        <div className={styles.center}>HI</div>
 
         <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a className={styles.card} target="_blank" rel="noopener noreferrer">
             <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
+              StoreFruit <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
+              Store a specified amount of fruit to the storage.
             </p>
           </a>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a className={styles.card} target="_blank" rel="noopener noreferrer">
             <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
+              RemoveFruit <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
+              Remove a specified amount of fruit from the storage.
             </p>
           </a>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a className={styles.card} target="_blank" rel="noopener noreferrer">
             <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
+              CreateFruit <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
+              Create a new fruit in the storage.
             </p>
           </a>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a className={styles.card} target="_blank" rel="noopener noreferrer">
             <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
+              UpdateFruit <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
+              Update an existing fruit's properties.
             </p>
+          </a>
+
+          <a className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className={inter.className}>
+              DeleteFruit <span>-&gt;</span>
+            </h2>
+            <p className={inter.className}>Delete a fruit from the storage;</p>
           </a>
         </div>
       </main>
     </>
-  )
+  );
 }
