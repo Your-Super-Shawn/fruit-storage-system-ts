@@ -52,6 +52,8 @@ export class FruitService implements IFruitService {
   /**
    * @description Removes a specified amount of fruit from the storage by calling
    * the removeFruitFromFruitStorage method in the FruitRepository.
+   * @param name The name of the fruit.
+   * @param amount The amount of the fruit.
    * @returns A promise that resolves to void.
    */
   async removeFruitFromFruitStorage(
@@ -64,6 +66,9 @@ export class FruitService implements IFruitService {
   /**
    * @description Creates a new fruit in the storage using the FruitFactory to create
    * a new Fruit entity and then storing it using the FruitRepository.
+   * @param name The name of the fruit.
+   * @param description The description of the fruit.
+   * @param limit The limit of the fruit.
    * @returns A promise that resolves to void.
    */
   async createFruitForFruitStorage(
@@ -77,6 +82,9 @@ export class FruitService implements IFruitService {
   /**
    * @description Updates an existing fruit's properties by calling the method
    * in the FruitRepository.
+   * @param name The name of the fruit.
+   * @param description The description of the fruit.
+   * @param limit The limit of the fruit.
    * @returns A promise that resolves to void.
    */
   async updateFruitForFruitStorage(
@@ -109,6 +117,7 @@ export class FruitService implements IFruitService {
   /**
    * @description Finds a fruit by its name by calling the findFruit method in
    * the FruitRepository.
+   * @param name The name of the fruit.
    * @returns A Fruit entity.
    */
   async findFruit(name: FruitName): Promise<Fruit> {
@@ -121,6 +130,18 @@ export class FruitService implements IFruitService {
    * @returns An array of Fruit entities.
    */
   async findAllFruits(): Promise<Fruit[]> {
-    return await this.fruitRepository.getAllFruits();
+    return await this.fruitRepository.findAllFruits();
+  }
+
+  /**
+   * @description Deltes all fruits from the storage by calling the deleteAllFruits
+   * method in the FruitRepository.
+   * @param forceDelete If true, all fruits will be deleted regardless of any
+   * existing amount in the storage. If false, all fruits will only be deleted
+   * if the amount in the storage is 0.
+   * @returns A promise that resolves to void.
+   */
+  async deleteAllFruits(forceDelete: boolean): Promise<void> {
+    await this.fruitRepository.deleteAllFruits(forceDelete);
   }
 }
