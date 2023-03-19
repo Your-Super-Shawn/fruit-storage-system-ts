@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import FruitTable from "@/components/FruitTable";
 import PageTitle from "@/components/PageTitle";
 import PageHead from "@/components/PageHead";
@@ -17,17 +17,24 @@ export default function Home() {
           github={"https://github.com/Your-Super-Shawn/fruit-storage-system-ts"}
         />
 
+        {/* Backend APIs Test Playground*/}
         <FruitTable />
 
+        {/* Version Notes*/}
         <div className={styles.grid}>
-          {/* <a className={styles.card} target="_blank" rel="noopener noreferrer">
+          <a
+            className={styles.card}
+            target="_blank"
+            href={"https://github.com/Your-Super-Shawn/fruit-storage-system-ts"}
+          >
             <h2 className={inter.className}>
-              Store <span>-&gt;</span>
+              v1.0 <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Store a specified amount of fruit to the storage.
+              19/03/203 - It is implemented with Next.js, Apollo Client,
+              GraphQL, and MongoDB.
             </p>
-          </a> */}
+          </a>
         </div>
       </main>
     </div>
