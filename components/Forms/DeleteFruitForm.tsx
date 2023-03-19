@@ -5,12 +5,22 @@ import { GET_ALL_FRUITS_QUERY } from "@/graphql/queries";
 import { DELETE_FRUIT_MUTATION } from "@/graphql/mutations";
 import { Checkbox } from "@nextui-org/react";
 
-export default function DeleteFruitForm() {
+interface Props {
+  onError: (message: string) => void;
+}
+
+export default function DeleteFruitForm(props: Props) {
   const [name, setName] = useState("");
   const [forceDelete, setForceDelete] = useState(true);
 
   const [deleteFruit] = useMutation(DELETE_FRUIT_MUTATION, {
     refetchQueries: [{ query: GET_ALL_FRUITS_QUERY }],
+    onCompleted: () => {
+      props.onError("");
+    },
+    onError: (error) => {
+      props.onError(error.graphQLErrors[0].message);
+    },
   });
 
   const handleSubmit = async (e: any) => {

@@ -124,17 +124,16 @@ export class FruitRepository implements IFruitRepository {
     name: FruitName,
     forceDelete: boolean
   ): Promise<void> {
-    if (forceDelete) {
-      await FruitModel.deleteOne({ name: name.value });
-    } else {
-      const fruit = await FruitModel.findOne({ name: name.value });
-      if (fruit && fruit.limit === 0) {
+    const fruit = await FruitModel.findOne({ name: name.value });
+
+    if (fruit) {
+      if (forceDelete || fruit.limit === 0) {
         await FruitModel.deleteOne({ name: name.value });
-      } else if (!fruit) {
-        throw new Error("Fruit not found.");
       } else {
         throw new Error("Cannot delete fruit with a non-zero limit.");
       }
+    } else {
+      throw new Error("Fruit not found.");
     }
   }
 
