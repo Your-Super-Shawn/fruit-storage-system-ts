@@ -41,10 +41,15 @@ This project serves as a simple, user-friendly testing interface for the Fruit S
     npm run dev
     ```
 
+4. Run the test cases in local terminal
+    ```sh
+    npx jest
+    ```
 
-4. Open your browser and visit [http://localhost:3000](http://localhost:3000)
+5. Open your browser and visit [http://localhost:3000](http://localhost:3000)
 
-5. To access the GraphQL API, visit [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql)
+6. To access the GraphQL API, visit [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql)
+
 
 ## Project Structure
 
