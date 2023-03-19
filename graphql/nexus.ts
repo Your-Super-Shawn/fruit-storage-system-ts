@@ -11,13 +11,13 @@ const fruitRepository = new FruitRepository();
 const fruitFactory = new FruitFactory();
 const fruitService = new FruitService(fruitRepository, fruitFactory);
 
-// Define GraphQL types here
+// Define GraphQL types using the Nexus schema interface.
 const Fruit = objectType({
   name: "Fruit",
   definition(t) {
-    t.nonNull.string("name");
-    t.nonNull.string("description");
-    t.nonNull.int("limit");
+    t.string("name");
+    t.string("description");
+    t.int("limit");
   },
 });
 
@@ -25,7 +25,7 @@ const Query = objectType({
   name: "Query",
   definition(t) {
     // Get a list of all fruits.
-    t.list.field("fruits", {
+    t.list.field("getAllFruits", {
       type: "Fruit",
       resolve: async () => {
         return await fruitService.findAllFruits();
@@ -67,6 +67,9 @@ const Mutation = objectType({
           fruitDescription,
           fruitLimit
         );
+        console.log("fruitName", fruitName);
+        console.log("fruitDescription", fruitDescription);
+        console.log("fruitLimit", fruitLimit);
         return { name, description, limit };
       },
     });

@@ -20,12 +20,12 @@ export class FruitRepository implements IFruitRepository {
   fruitFactory: any;
   fruitRepository: any;
   // 0. [Query] Find a fruit by its name.
-  public async findFruit(name: FruitName): Promise<Fruit> {
+  public async findFruit(name: FruitName): Promise<Fruit | null> {
     const fruit = await FruitModel.findOne({ name: name.value });
     if (fruit) {
       return fruit;
     } else {
-      throw new Error("Fruit does not exist.");
+      return null;
     }
   }
 
@@ -37,10 +37,14 @@ export class FruitRepository implements IFruitRepository {
     const fruit = await FruitModel.findOne({ name: name.value });
     if (fruit) {
       const newLimitValue = fruit.limit + amount.value;
-      await FruitModel.updateOne(
-        { name: name.value },
-        { limit: newLimitValue }
-      );
+      if (newLimitValue < 10) {
+        await FruitModel.updateOne(
+          { name: name.value },
+          { limit: newLimitValue }
+        );
+      } else {
+        throw new Error("Fruit limit cannot exceed 10.");
+      }
     } else {
       throw new Error("Fruit not found.");
     }
@@ -75,18 +79,21 @@ export class FruitRepository implements IFruitRepository {
   ): Promise<void> {
     const existingFruit = await this.findFruit(name);
     if (!existingFruit) {
-      // const newFruit = await fruitFactory.createFruit({
-      //   name,
-      //   description,
-      //   limit,
-      // });
-      // await FruitMapper.toPersistence(newFruit);
-      const newFruit = new FruitModel({
-        name: name.value,
-        description: description.value,
-        limit: limit.value,
-      });
-      await newFruit.save();
+      if (FruitDescription.length > 30) {
+        throw new Error(
+          "Fruit description cannot be longer than 30 characters."
+        );
+      } else if (limit.value > 10) {
+        throw new Error("Fruit limit cannot exceed 10.");
+      } else {
+        const newfruit = await fruitFactory.createFruit({
+          name,
+          description,
+          limit,
+        });
+        const fruitModel = await FruitMapper.toPersistence(newfruit);
+        await fruitModel.save();
+      }
     } else {
       throw new Error("Fruit with the same name already exists.");
     }

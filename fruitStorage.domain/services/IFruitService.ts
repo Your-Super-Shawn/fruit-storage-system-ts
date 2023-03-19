@@ -65,11 +65,11 @@ export interface IFruitService {
   ): Promise<void>;
 
   /**
-   * @description Finds a fruit by its name by calling the findFruit method in
+   * @description Finds a fruit by its name by calling the findFruit mFethod in
    * the FruitRepository.
    * @returns A Fruit entity.
    */
-  findFruit(name: FruitName): Promise<Fruit>;
+  findFruit(name: FruitName): Promise<Fruit | null>;
 
   /**
    * @description Finds all fruits in the storage by calling the findAllFruits

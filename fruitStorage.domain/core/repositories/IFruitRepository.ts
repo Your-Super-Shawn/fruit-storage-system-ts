@@ -11,7 +11,7 @@ export interface IFruitRepository {
    * @returns The fruit if found, otherwise null.
    * @throws Error if the fruit is not found.
    */
-  findFruit(name: FruitName): Promise<Fruit>;
+  findFruit(name: FruitName): Promise<Fruit | null>;
 
   /**
    * @description Store a specified amount of fruit to the storage.
