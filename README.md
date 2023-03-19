@@ -1,26 +1,25 @@
-# Fruit Storage System
+# Fruit Storage System API | Test Playground
 
-A Fruit Storage System built using Next.js, TypeScript, GraphQL, Nexus, and MongoDB.
+A lightweight app built using Next.js, TypeScript, GraphQL, Nexus, and MongoDB, designed primarily for testing backend API functionality of the Fruit Storage System.
 
 ## Overview
 
-This project is a Fruit Storage System that allows users to:
+This project serves as a simple, user-friendly testing interface for the Fruit Storage System's backend API. It allows users to:
 
-- Create, read, update, and delete fruits
-- Store and remove fruits from the storage
-- Keep track of the fruit's name, description, and storage limit
+- Test Create, Update, Store, Remove and Delete (CRUD) operations for fruit entries
+- Test storing and removing fruits from the inventory
+- Verify each fruit's name, description, and storage limit
 
 ## Technologies
 
-| Technology      | Purpose                                                     |
-|-----------------|-------------------------------------------------------------|
-| Next.js         | Creating the web application with server-rendered components|
-| TypeScript      | Static types to improve code quality and maintainability   |
-| GraphQL         | Query language used to define the API for the application   |
-| Nexus           | Library to create a GraphQL schema using a code-first approach|
-| MongoDB         | NoSQL database used for storing data                        |
-| Mongoose        | Library to interact with MongoDB and define schemas         |
-
+| Technology | Purpose                                                        |
+| ---------- | -------------------------------------------------------------- |
+| Next.js    | Creating the web application with server-rendered components   |
+| TypeScript | Static types to improve code quality and maintainability       |
+| GraphQL    | Query language used to define the API for the application      |
+| Nexus      | Library to create a GraphQL schema using a code-first approach |
+| MongoDB    | NoSQL database used for storing data                           |
+| Mongoose   | Library to interact with MongoDB and define schemas            |
 
 ## Getting Started
 
@@ -60,3 +59,5 @@ This project is a Fruit Storage System that allows users to:
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+Enjoy testing! 🚀
