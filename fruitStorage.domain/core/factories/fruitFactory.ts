@@ -16,9 +16,11 @@ interface CreateFruitProps {
  */
 export class FruitFactory {
   async createFruit(props: CreateFruitProps): Promise<Fruit> {
-    const name = FruitName.create(props.name);
-    const description = FruitDescription.create(props.description);
-    const limit = FruitLimit.create(props.limit);
+    const name = FruitName.create({ value: props.name.value });
+    const description = FruitDescription.create({
+      value: props.description.value,
+    });
+    const limit = FruitLimit.create({ value: props.limit.value });
     return new Fruit({ name, description, limit });
   }
 }

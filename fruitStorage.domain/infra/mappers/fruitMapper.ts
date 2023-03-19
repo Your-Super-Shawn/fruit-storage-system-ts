@@ -2,6 +2,7 @@ import { Fruit } from "@/fruitStorage.domain/core/entities/fruit";
 import { FruitName } from "@/fruitStorage.domain/core/valueObjects/fruitName";
 import { FruitDescription } from "@/fruitStorage.domain/core/valueObjects/fruitDescription";
 import { FruitLimit } from "@/fruitStorage.domain/core/valueObjects/fruitLimit";
+import { FruitModel } from "../models/fruitModel";
 
 export class FruitMapper {
   /**
@@ -10,7 +11,7 @@ export class FruitMapper {
    * FruitAmount, and FruitLimit using the properties of the persistence object, and then creates a new
    * Fruit object with these value objects.
    */
-  toDomain(persistenceObject: any): Fruit {
+  static toDomain(persistenceObject: any): Fruit {
     const name = FruitName.create({ value: persistenceObject.name });
     const description = FruitDescription.create({
       value: persistenceObject.description,
@@ -24,11 +25,11 @@ export class FruitMapper {
    * object (a Mongo document). It extracts the values from the value objects name, description, amount,
    * and limit of the domain object and returns an object containing these properties.
    */
-  toPersistence(domainObject: Fruit): any {
-    return {
+  static toPersistence(domainObject: Fruit): any {
+    return new FruitModel({
       name: domainObject.name.value,
       description: domainObject.description.value,
       limit: domainObject.limit.value,
-    };
+    });
   }
 }

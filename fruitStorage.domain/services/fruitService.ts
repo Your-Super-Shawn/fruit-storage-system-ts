@@ -39,14 +39,7 @@ export class FruitService implements IFruitService {
     name: FruitName,
     amount: FruitAmount
   ): Promise<void> {
-    const fruit = await this.fruitRepository.findFruit(name);
-    if (fruit) {
-      const newLimitValue = fruit.limit.value + amount.value;
-      const newLimit = FruitLimit.create({ value: newLimitValue });
-      await this.fruitRepository.storeFruitToFruitStorage(name, newLimit);
-    } else {
-      throw new Error("Fruit not found.");
-    }
+    await this.fruitRepository.storeFruitToFruitStorage(name, amount);
   }
 
   /**
@@ -76,7 +69,11 @@ export class FruitService implements IFruitService {
     description: FruitDescription,
     limit: FruitLimit
   ): Promise<void> {
-    await this.fruitFactory.createFruit({ name, description, limit });
+    await this.fruitRepository.createFruitForFruitStorage(
+      name,
+      description,
+      limit
+    );
   }
 
   /**
@@ -120,7 +117,7 @@ export class FruitService implements IFruitService {
    * @param name The name of the fruit.
    * @returns A Fruit entity.
    */
-  async findFruit(name: FruitName): Promise<Fruit> {
+  async findFruit(name: FruitName): Promise<Fruit | null> {
     return await this.fruitRepository.findFruit(name);
   }
 
