@@ -21,11 +21,11 @@ export class FruitRepository implements IFruitRepository {
   fruitRepository: any;
   // 0. [Query] Find a fruit by its name.
   public async findFruit(name: FruitName): Promise<Fruit> {
-    const fruit = FruitModel.findOne({ name: name.value });
+    const fruit = await FruitModel.findOne({ name: name.value });
     if (fruit) {
       return fruit;
     } else {
-      throw new Error("Fruit not found.");
+      throw new Error("Fruit does not exist.");
     }
   }
 
@@ -123,10 +123,10 @@ export class FruitRepository implements IFruitRepository {
       const fruit = await FruitModel.findOne({ name: name.value });
       if (fruit && fruit.limit === 0) {
         await FruitModel.deleteOne({ name: name.value });
+      } else if (!fruit) {
+        throw new Error("Fruit not found.");
       } else {
-        throw new Error(
-          "Fruit has a non-zero limit. Cannot delete without forceDelete set to true."
-        );
+        throw new Error("Cannot delete fruit with a non-zero limit.");
       }
     }
   }
