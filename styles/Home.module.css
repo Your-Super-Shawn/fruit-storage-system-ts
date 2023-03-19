@@ -1,3 +1,7 @@
+.container {
+  padding: 0 2rem;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -198,10 +202,6 @@
     padding: 8rem 0 6rem;
   }
 
-  .center::before {
-    transform: none;
-    height: 300px;
-  }
 
   .description {
     font-size: 0.8rem;

@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
+import styles from "../styles/Home.module.css";
+import ErrorReminderBox from "@/components/ErrorReminderBox";
+import ErrorMessage from "@/components/ErrorMessage";
 import {
   Table,
   Input,
@@ -7,6 +10,8 @@ import {
   Container,
   Spacer,
   Grid,
+  Row,
+  Col,
 } from "@nextui-org/react";
 import {
   GET_ALL_FRUITS_QUERY,
@@ -19,6 +24,11 @@ import {
   STORE_FRUIT_MUTATION,
   REMOVE_FRUIT_MUTATION,
 } from "@/graphql/mutations";
+import CreateFruitForm from "./Forms/CreateFruitForm";
+import DeleteFruitForm from "./Forms/DeleteFruitForm";
+import RemoveFruitForm from "./Forms/RemoveFruitForm";
+import StoreFruitForm from "./Forms/StoreFruitForm";
+import UpdateFruitForm from "./Forms/UpdateFruitForm";
 
 interface Fruit {
   name: string;
@@ -37,20 +47,6 @@ export default function FruitList() {
     refetchQueries: [{ query: GET_ALL_FRUITS_QUERY }],
   });
 
-  const columns = [
-    {
-      key: "name",
-      label: "NAME",
-    },
-    {
-      key: "description",
-      label: "DESCRIPTION",
-    },
-    {
-      key: "limit",
-      label: "LIMIT",
-    },
-  ];
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     await createFruit({ variables: { name, description, limit } });
@@ -64,45 +60,46 @@ export default function FruitList() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <>
+    <div className={styles.center}>
       <Container fluid>
-        <Grid.Container gap={2} justify="flex-start">
-          <Grid xs={12} md={4}>
-            <form onSubmit={handleSubmit}>
-              <Input
-                label="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <Spacer y={0.5} />
-              <Input
-                label="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <Spacer y={0.5} />
-              <Input
-                type="number"
-                label="Limit"
-                value={limit}
-                onChange={(e) => setLimit(parseInt(e.target.value))}
-              />
-              <Spacer y={1} />
-              <Button type="submit">Create Fruit</Button>
-            </form>
-          </Grid>
-          <Grid xs={12} md={8}>
-            <Spacer y={2} />
+        {/* Section 1 - New Fruit Input Form */}
+        <Row justify="center">
+          <Col>
+            <CreateFruitForm onSuccess={() => refetch()} />
+          </Col>
+          <Spacer x={1} />
+          <Col>
+            <UpdateFruitForm onSuccess={() => refetch()} />
+          </Col>
+          <Spacer x={1} />
+          <Col>
+            <StoreFruitForm onSuccess={() => refetch()} />
+          </Col>
+          <Spacer x={1} />
+          <Col>
+            <RemoveFruitForm onSuccess={() => refetch()} />
+          </Col>
+          <Spacer x={1} />
+          <Col>
+            <DeleteFruitForm onSuccess={() => refetch()} />
+          </Col>
+        </Row>
+
+        <Spacer y={2} />
+
+        {/* Section 2 - Fruit Table */}
+        <Row justify="center">
+          <Col span={12}>
             <Table
               bordered
               shadow={false}
               selectionMode="multiple"
               aria-label="Example static bordered collection table"
             >
-              <Table.Header columns={columns}>
-                {(column) => (
-                  <Table.Column key={column.key}>{column.label}</Table.Column>
-                )}
+              <Table.Header>
+                <Table.Column>Name</Table.Column>
+                <Table.Column>Description</Table.Column>
+                <Table.Column>Limit</Table.Column>
               </Table.Header>
               <Table.Body>
                 {data.getAllFruits.map((fruit: Fruit) => (
@@ -114,9 +111,17 @@ export default function FruitList() {
                 ))}
               </Table.Body>
             </Table>
-          </Grid>
-        </Grid.Container>
+          </Col>
+        </Row>
+        <Spacer y={2} />
+        <Row justify="center">
+          <Col span={12}>
+            <ErrorReminderBox>
+              <ErrorMessage message={"Test!"} />
+            </ErrorReminderBox>
+          </Col>
+        </Row>
       </Container>
-    </>
+    </div>
   );
 }
