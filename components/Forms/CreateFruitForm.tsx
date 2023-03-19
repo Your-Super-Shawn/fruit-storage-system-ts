@@ -4,13 +4,23 @@ import { Input, Button, Spacer } from "@nextui-org/react";
 import { GET_ALL_FRUITS_QUERY } from "@/graphql/queries";
 import { CREATE_FRUIT_MUTATION } from "@/graphql/mutations";
 
-export default function CreateFruitForm() {
+interface Props {
+  onError: (message: string) => void;
+}
+
+export default function CreateFruitForm(props: Props) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [limit, setLimit] = useState(0);
 
-  const [createFruit, { error }] = useMutation(CREATE_FRUIT_MUTATION, {
+  const [createFruit] = useMutation(CREATE_FRUIT_MUTATION, {
     refetchQueries: [{ query: GET_ALL_FRUITS_QUERY }],
+    onCompleted: () => {
+      props.onError("");
+    },
+    onError: (error) => {
+      props.onError(error.graphQLErrors[0].message);
+    },
   });
 
   const handleSubmit = async (e: any) => {

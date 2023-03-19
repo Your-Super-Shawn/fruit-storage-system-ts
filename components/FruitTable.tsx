@@ -3,16 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import styles from "../styles/Home.module.css";
 import ErrorReminderBox from "@/components/ErrorReminderBox";
 import ErrorMessage from "@/components/ErrorMessage";
-import {
-  Table,
-  Input,
-  Button,
-  Container,
-  Spacer,
-  Grid,
-  Row,
-  Col,
-} from "@nextui-org/react";
+import { Table, Container, Spacer, Row, Col } from "@nextui-org/react";
 import { GET_ALL_FRUITS_QUERY } from "@/graphql/queries";
 import CreateFruitForm from "./Forms/CreateFruitForm";
 import DeleteFruitForm from "./Forms/DeleteFruitForm";
@@ -27,11 +18,11 @@ interface Fruit {
 }
 
 export default function FruitList() {
-  const { data, refetch } = useQuery(GET_ALL_FRUITS_QUERY);
+  const { data } = useQuery(GET_ALL_FRUITS_QUERY);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleError = (error: any) => {
-    setErrorMessage(error.message);
+  const handleErrorMessage = (message: string) => {
+    setErrorMessage(message);
   };
 
   return (
@@ -40,23 +31,23 @@ export default function FruitList() {
         {/* Section 1 - New Fruit Input Form */}
         <Row justify="center">
           <Col>
-            <CreateFruitForm />
+            <CreateFruitForm onError={handleErrorMessage} />
           </Col>
           <Spacer x={1} />
           <Col>
-            <UpdateFruitForm />
+            <UpdateFruitForm onError={handleErrorMessage} />
           </Col>
           <Spacer x={1} />
           <Col>
-            <StoreFruitForm />
+            <StoreFruitForm onError={handleErrorMessage} />
           </Col>
           <Spacer x={1} />
           <Col>
-            <RemoveFruitForm />
+            <RemoveFruitForm onError={handleErrorMessage} />
           </Col>
           <Spacer x={1} />
           <Col>
-            <DeleteFruitForm />
+            <DeleteFruitForm onError={handleErrorMessage} />
           </Col>
         </Row>
 
@@ -67,8 +58,9 @@ export default function FruitList() {
           <Col span={12}>
             <Table
               bordered
+              lined
+              headerLined
               shadow={false}
-              selectionMode="multiple"
               aria-label="Example static bordered collection table"
             >
               <Table.Header>
@@ -77,7 +69,7 @@ export default function FruitList() {
                 <Table.Column>Limit</Table.Column>
               </Table.Header>
               <Table.Body>
-                {data.getAllFruits.map((fruit: Fruit) => (
+                {data?.getAllFruits.map((fruit: Fruit) => (
                   <Table.Row key={fruit.name}>
                     <Table.Cell>{fruit.name}</Table.Cell>
                     <Table.Cell>{fruit.description}</Table.Cell>
