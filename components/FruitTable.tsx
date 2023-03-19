@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import styles from "../styles/Home.module.css";
 import ErrorReminderBox from "@/components/ErrorReminderBox";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -10,6 +10,7 @@ import DeleteFruitForm from "./Forms/DeleteFruitForm";
 import RemoveFruitForm from "./Forms/RemoveFruitForm";
 import StoreFruitForm from "./Forms/StoreFruitForm";
 import UpdateFruitForm from "./Forms/UpdateFruitForm";
+import { Text } from "@nextui-org/react";
 
 interface Fruit {
   name: string;
@@ -28,6 +29,18 @@ export default function FruitList() {
   return (
     <div className={styles.center}>
       <Container fluid>
+        <Row justify="center">
+          <Text
+            h2
+            weight="bold"
+            css={{
+              textGradient: "45deg, $blue600 -20%, $pink600 50%",
+            }}
+          >
+            Backedn APIs (Test Only)
+          </Text>
+        </Row>
+        <Spacer y={5} />
         {/* Section 1 - New Fruit Input Form */}
         <Row justify="center">
           <Col>
