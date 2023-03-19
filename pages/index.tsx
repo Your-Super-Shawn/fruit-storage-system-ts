@@ -28,7 +28,7 @@ export default function Home() {
             href={"https://github.com/Your-Super-Shawn/fruit-storage-system-ts"}
           >
             <h2 className={inter.className}>
-              v1.0 <span>-&gt;</span>
+              v1.1 <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
               19/03/203 - It is implemented with Next.js, Apollo Client,
