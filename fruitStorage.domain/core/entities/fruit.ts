@@ -45,4 +45,8 @@ export class Fruit extends Entity<FruitProps> {
   public toString(): string {
     return this.props.name.toString();
   }
+
+  public static create(props: FruitProps): Fruit {
+    return new Fruit(props);
+  }
 }
