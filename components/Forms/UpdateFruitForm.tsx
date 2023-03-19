@@ -4,18 +4,13 @@ import { Input, Button, Spacer } from "@nextui-org/react";
 import { GET_ALL_FRUITS_QUERY } from "@/graphql/queries";
 import { UPDATE_FRUIT_MUTATION } from "@/graphql/mutations";
 
-interface Props {
-  onSuccess: () => void;
-}
-
-export default function UpdateFruitForm({ onSuccess }: Props) {
+export default function UpdateFruitForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [limit, setLimit] = useState(0);
 
   const [updateFruit] = useMutation(UPDATE_FRUIT_MUTATION, {
     refetchQueries: [{ query: GET_ALL_FRUITS_QUERY }],
-    onCompleted: () => onSuccess(),
   });
 
   const handleSubmit = async (e: any) => {
@@ -46,7 +41,9 @@ export default function UpdateFruitForm({ onSuccess }: Props) {
         onChange={(e) => setLimit(parseInt(e.target.value))}
       />
       <Spacer y={1} />
-      <Button type="submit">Update</Button>
+      <Button type="submit" color="secondary">
+        Update
+      </Button>
     </form>
   );
 }

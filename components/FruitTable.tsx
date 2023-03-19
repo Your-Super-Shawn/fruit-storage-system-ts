@@ -13,17 +13,7 @@ import {
   Row,
   Col,
 } from "@nextui-org/react";
-import {
-  GET_ALL_FRUITS_QUERY,
-  GET_FRUIT_BY_NAME_QUERY,
-} from "@/graphql/queries";
-import {
-  CREATE_FRUIT_MUTATION,
-  UPDATE_FRUIT_MUTATION,
-  DELETE_FRUIT_MUTATION,
-  STORE_FRUIT_MUTATION,
-  REMOVE_FRUIT_MUTATION,
-} from "@/graphql/mutations";
+import { GET_ALL_FRUITS_QUERY } from "@/graphql/queries";
 import CreateFruitForm from "./Forms/CreateFruitForm";
 import DeleteFruitForm from "./Forms/DeleteFruitForm";
 import RemoveFruitForm from "./Forms/RemoveFruitForm";
@@ -37,27 +27,12 @@ interface Fruit {
 }
 
 export default function FruitList() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [limit, setLimit] = useState(0);
+  const { data, refetch } = useQuery(GET_ALL_FRUITS_QUERY);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const { data, loading, error, refetch } = useQuery(GET_ALL_FRUITS_QUERY);
-
-  const [createFruit] = useMutation(CREATE_FRUIT_MUTATION, {
-    refetchQueries: [{ query: GET_ALL_FRUITS_QUERY }],
-  });
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    await createFruit({ variables: { name, description, limit } });
-    setName("");
-    setDescription("");
-    setLimit(0);
-    refetch(); // Refresh the fruit list after creating a new fruit
+  const handleError = (error: any) => {
+    setErrorMessage(error.message);
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className={styles.center}>
@@ -65,23 +40,23 @@ export default function FruitList() {
         {/* Section 1 - New Fruit Input Form */}
         <Row justify="center">
           <Col>
-            <CreateFruitForm onSuccess={() => refetch()} />
+            <CreateFruitForm />
           </Col>
           <Spacer x={1} />
           <Col>
-            <UpdateFruitForm onSuccess={() => refetch()} />
+            <UpdateFruitForm />
           </Col>
           <Spacer x={1} />
           <Col>
-            <StoreFruitForm onSuccess={() => refetch()} />
+            <StoreFruitForm />
           </Col>
           <Spacer x={1} />
           <Col>
-            <RemoveFruitForm onSuccess={() => refetch()} />
+            <RemoveFruitForm />
           </Col>
           <Spacer x={1} />
           <Col>
-            <DeleteFruitForm onSuccess={() => refetch()} />
+            <DeleteFruitForm />
           </Col>
         </Row>
 
@@ -114,10 +89,11 @@ export default function FruitList() {
           </Col>
         </Row>
         <Spacer y={2} />
+        {/* Section 3 - Error Message */}
         <Row justify="center">
           <Col span={12}>
             <ErrorReminderBox>
-              <ErrorMessage message={"Test!"} />
+              <ErrorMessage message={errorMessage} />
             </ErrorReminderBox>
           </Col>
         </Row>
