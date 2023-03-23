@@ -23,6 +23,7 @@ export default function StoreFruitForm(props: Props) {
   });
 
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
     await storeFruit({ variables: { name, amount } });
     setName("");
     setAmount(0);

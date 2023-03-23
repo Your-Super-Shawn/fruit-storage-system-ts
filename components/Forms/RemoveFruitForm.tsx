@@ -23,6 +23,7 @@ export default function RemoveFruitForm(props: Props) {
   });
 
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
     await removeFruit({ variables: { name, amount } });
     setName("");
     setAmount(0);

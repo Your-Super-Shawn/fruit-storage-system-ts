@@ -1,4 +1,4 @@
-# Fruit Storage System API | Test Playground
+# 🍎 Fruit Storage System API | Test Playground
 
 A lightweight app built using Next.js, TypeScript, GraphQL, Nexus, and MongoDB, designed primarily for testing backend API functionality of the Fruit Storage System.
 

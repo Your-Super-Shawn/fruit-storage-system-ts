@@ -24,6 +24,7 @@ export default function UpdateFruitForm(props: Props) {
   });
 
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
     await updateFruit({ variables: { name, description, limit } });
     setName("");
     setDescription("");

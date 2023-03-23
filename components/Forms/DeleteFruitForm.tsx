@@ -24,6 +24,7 @@ export default function DeleteFruitForm(props: Props) {
   });
 
   const handleSubmit = async (e: any) => {
+    e.preventDefault();
     await deleteFruit({ variables: { name, forceDelete } });
     setName("");
   };
@@ -44,7 +45,6 @@ export default function DeleteFruitForm(props: Props) {
       >
         Force Delete
       </Checkbox>
-      ;
       <Spacer y={1} />
       <Button type="submit" color="error">
         Delete
