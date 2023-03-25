@@ -50,6 +50,8 @@ This project serves as a simple, user-friendly testing interface for the Fruit S
 
 6. To access the GraphQL API, visit [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql)
 
+Note -> Don't forget to configure .env. file in your local environemnt for "MONGO_URL", otherwise it will fail to connect to the databse.
+
 
 ## Project Structure
 
